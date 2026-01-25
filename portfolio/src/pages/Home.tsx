@@ -74,7 +74,7 @@ const socialLinks = [
   {
     icon: <FaFacebook className="text-blue-600 text-4xl" />,
     name: "Facebook",
-    url: "https://facebook.com/sengnoeun", // ← UPDATE WITH YOUR REAL LINKS!
+    url: "https://www.facebook.com/share/1E4MjjabiM/", // ← UPDATE WITH YOUR REAL LINKS!
   },
   {
     icon: <FaTelegram className="text-sky-500 text-4xl" />,
@@ -130,19 +130,19 @@ function Home() {
   
 
       {/* ================= SOCIAL LINKS ================= */}
-      <section className="container mx-auto px-6 py-2 md:py-20">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-gray-800">
+      <section className="container  px-6 py-2 md:py-20">
+        <h2 className="text-3xl md:text-4xl font-bold  mb-10 text-gray-800">
           Connect with Me
         </h2>
-        <div className="flex flex-wrap justify-center gap-2 md:gap-8">
+        <div className="flex flex-wrap  gap-2">
           {socialLinks.map((social, index) => (
             <a
               key={index}
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center p-3 bg-white rounded-2xl shadow-md 
-                         hover:shadow-xl hover:-translate-y-2 transition-all duration-300 min-w-[140px]"
+              className="group flex flex-col items-center p-3  bg-white rounded-2xl shadow-md 
+                         hover:shadow-xl hover:-translate-y-2 transition-all duration-300 min-w-[100px]"
             >
               <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
                 {social.icon}
