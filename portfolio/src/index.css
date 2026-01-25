@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* src/index.css */
+
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior: none;
+}
+
+body {
+  cursor: default;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input,
+textarea,
+[contenteditable] {
+  cursor: text !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+* {
+  -webkit-user-select: text !important;
+}
