@@ -121,13 +121,13 @@ function Home() {
   return (
     <main className="min-h-screen bg-blue-50">
       {/* ================= HERO / PROFILE ================= */}
-      {profile && (
+     
         <Profile
           isLoading={profileLoading}
           isError={profileError}
           profile={profile}
         />
-      )}
+  
 
       {/* ================= SOCIAL LINKS ================= */}
       <section className="container mx-auto px-6 py-16 md:py-20">

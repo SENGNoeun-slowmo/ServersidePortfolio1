@@ -1,13 +1,18 @@
 import React, { type JSX } from 'react';
 import loading from "../assets/loading-flash.webp"; // fixed typo
-
+interface Skill {
+  id: string;
+  name: string;
+  level?: string;
+}
 interface SkillsProps {
   isLoading: boolean;
   isError: boolean;
-  skills: Array<{ id: string; name: string; level?: string }>;
+  skills?: Skill|null;
   normalizeSkillName: (name: string) => string;
   iconMap: Record<string, JSX.Element>;
 }
+
 
 function Skills({
   isLoading,

@@ -1,4 +1,5 @@
 import React from 'react';
+import loading from "../assets/loading-flash.webp";
 
 interface Profiles {
   id: string;
@@ -14,15 +15,22 @@ interface ProfileProps {
   profile?: Profiles | null;
 }
 
-function Profile({ isLoading, isError, profile = null }: ProfileProps) {
+function Profile({ isLoading, isError, profile }: ProfileProps) {
   // ─── Loading ────────────────────────────────────────────────
   if (isLoading) {
     return (
-      <section className="container mx-auto py-12 px-4 sm:px-6 text-center">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+      <section className="container mx-auto px-6 mt-20 pb-20">
+        <h1 className="text-center text-4xl md:text-5xl font-semibold mb-16">
           Professional Profile
-        </h2>
-        <p className="text-lg sm:text-xl text-gray-600">Loading profile...</p>
+        </h1>
+
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <img
+            src={loading}
+            alt="Loading..."
+            className="w-40 h-40 object-contain animate-pulse"
+          />
+        </div>
       </section>
     );
   }
@@ -41,19 +49,21 @@ function Profile({ isLoading, isError, profile = null }: ProfileProps) {
     );
   }
 
-  // ─── No data ────────────────────────────────────────────────
+  // ─── No data (optional – you can keep or remove) ────────────
   if (!profile) {
     return (
       <section className="container mx-auto py-12 px-4 sm:px-6 text-center">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-gray-900">
           Professional Profile
         </h2>
-        <p className="text-lg sm:text-xl text-gray-600">No profile data available yet.</p>
+        <p className="text-lg sm:text-xl text-gray-600">
+          No profile data available yet.
+        </p>
       </section>
     );
   }
 
-  // ─── Main content ───────────────────────────────────────────
+  // ─── Main content (your original hero layout) ───────────────
   return (
     <section className="w-full min-h-[70vh] md:min-h-[85vh] lg:min-h-[90vh] flex items-center py-12 md:py-16 lg:py-24 bg-gradient-to-br from-indigo-50 via-white to-sky-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
