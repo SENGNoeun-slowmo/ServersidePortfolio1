@@ -138,7 +138,7 @@ function Header() {
               exit="closed"
               className="md:hidden bg-white border-t shadow-lg overflow-hidden"
             >
-              <ul className="flex flex-col items-center py-8 gap-8 text-lg font-medium">
+              <ul className="flex flex-col items-center py-8 gap-8 list-style-type-* decoration-* text-lg font-medium">
                 {["/", "/About", "/Contact"].map((path, idx) => {
                   const label = ["Home", "About", "Contact"][idx];
                   return (

@@ -22,7 +22,7 @@ function Skills({
   iconMap,
 }: SkillsProps) {
   return (
-    <section className="container mx-auto px-6 mt-20 pb-20">
+    <section className="container mx-auto px-6 py-1 md:py-20">
       <h1 className="text-center text-4xl md:text-5xl font-semibold mb-16">
         My Skills
       </h1>
@@ -57,8 +57,8 @@ function Skills({
             <div
               key={skill.id}
               className="h-44 sm:h-48  flex flex-col items-center justify-center
-                         bg-white border-4 border-gray-800 rounded-2xl
-                         shadow hover:shadow-xl hover:-translate-y-1.5 hover:border-gray-900
+                         bg-white border-4  rounded-2xl
+                         shadow hover:shadow-xl hover:-translate-y-1.5 hover:border-gray-300
                          transition-all duration-300"
             >
               <div className="text-5xl sm:text-6xl mb-3">
