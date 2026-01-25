@@ -83,7 +83,7 @@ function Experience({
         Professional Experience
       </h2>
 
-      <div className="grid gap-8 md:gap-10 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-8 md:gap-10 md:grid-cols-1 xl:grid-cols-1">
         {experiences.map((exp) => (
           <div
             key={exp.id}
