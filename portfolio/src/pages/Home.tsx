@@ -1,176 +1,88 @@
 // src/pages/Home.tsx
-import React, { type JSX } from "react";
+import React from "react";
 import {
-  FaHtml5,
-  FaCss3Alt,
-  FaJs,
-  FaReact,
-  FaPhp,
-  FaLaravel,
-  FaNodeJs,
-  FaPython,
-  FaGit,
-  FaFacebook,
-  FaTelegram,
-  FaInstagram,
+  FaHtml5, FaCss3Alt, FaJs, FaReact, FaPhp, FaLaravel,
+  FaNodeJs, FaPython, FaGit, FaFacebook, FaTelegram, FaInstagram,
 } from "react-icons/fa";
 import { SiTailwindcss, SiMysql, SiTypescript } from "react-icons/si";
-
-import useFetchData from "../Use/useFetchData"; // adjust path
+import useFetchData from "../Use/useFetchData";
 import Profile from "./Profile";
-import Skills from "../pages/Skills";     // ← renamed for clarity (was Skill)
+import Skills from "../pages/Skills";
 import Experiences from "../pages/Experience";
+import Navbar from "../components/Navbar";           // ← new
+import Footer from "../components/Footer"; 
+          // we'll create below
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-const SKILLS_URL      = `${API_URL}/api/skills`;
-const EXPERIENCES_URL = `${API_URL}/api/experiences`;
-const PROFILE_URL     = `${API_URL}/api/profiles`;
 
-/* ================= TYPES ================= */
-type Skill = {
-  id: string;
-  name: string;
-  level?: string;
-  created_at?: string | null;
-};
-
-type Experience = {
-  id: string;
-  company_name: string;
-  role: string;
-  start_date: string;
-  end_date: string;
-  responsibilities: string[];
-};
-
-type  Profiles ={
-  id: string;
-  full_name: string;
-  title: string;
-  bio: string;
-  profile_image: string;
-}
-
-/* ================= HELPERS ================= */
-const normalizeSkillName = (name: string) => name.trim().toLowerCase();
+type Skill = { id: string; name: string; level?: string; created_at?: string | null; };
+type Experience = { id: string; company_name: string; role: string; start_date: string; end_date: string; responsibilities: string[] | null; };
+type ProfileType = { id: string; full_name: string; title: string; bio: string; profile_image: string; };
 
 const iconMap: Record<string, JSX.Element> = {
-  html:           <FaHtml5       className="text-orange-500 text-5xl" />,
-  css:            <FaCss3Alt     className="text-blue-500 text-5xl" />,
-  javascript:     <FaJs          className="text-yellow-400 text-5xl" />,
-  react:          <FaReact       className="text-sky-400 text-5xl" />,
-  "tailwind css": <SiTailwindcss className="text-sky-400 text-5xl" />,
-  php:            <FaPhp         className="text-purple-600 text-5xl" />,
-  laravel:        <FaLaravel     className="text-red-500 text-5xl" />,
-  "node.js":      <FaNodeJs      className="text-green-600 text-5xl" />,
-  mysql:          <SiMysql       className="text-blue-600 text-5xl" />,
-  python:         <FaPython      className="text-yellow-500 text-5xl" />,
-  typescript:     <SiTypescript  className="text-blue-500 text-5xl" />,
-  git:            <FaGit         className="text-red-500 text-5xl" />,
+  html: <FaHtml5 className="text-orange-500 text-6xl" />,
+  css: <FaCss3Alt className="text-blue-500 text-6xl" />,
+  javascript: <FaJs className="text-yellow-400 text-6xl" />,
+  react: <FaReact className="text-sky-500 text-6xl" />,
+  "tailwind css": <SiTailwindcss className="text-teal-500 text-6xl" />,
+  php: <FaPhp className="text-purple-600 text-6xl" />,
+  laravel: <FaLaravel className="text-red-500 text-6xl" />,
+  "node.js": <FaNodeJs className="text-green-600 text-6xl" />,
+  mysql: <SiMysql className="text-blue-600 text-6xl" />,
+  python: <FaPython className="text-yellow-500 text-6xl" />,
+  typescript: <SiTypescript className="text-blue-600 text-6xl" />,
+  git: <FaGit className="text-red-500 text-6xl" />,
 };
 
-/* ================= SOCIAL LINKS ================= */
 const socialLinks = [
-  {
-    icon: <FaFacebook className="text-blue-600 text-4xl" />,
-    name: "Facebook",
-    url: "https://www.facebook.com/share/1E4MjjabiM/", // ← UPDATE WITH YOUR REAL LINKS!
-  },
-  {
-    icon: <FaTelegram className="text-sky-500 text-4xl" />,
-    name: "Telegram",
-    url: "https://t.me/sengnoeun",
-  },
-  {
-    icon: <FaInstagram className="text-pink-600 text-4xl" />,
-    name: "Instagram",
-    url: "https://instagram.com/sengnoeun",
-  },
+  { icon: <FaFacebook className="text-3xl" />, name: "Facebook", url: "https://www.facebook.com/share/1E4MjjabiM/", color: "text-blue-600 hover:text-blue-700" },
+  { icon: <FaTelegram className="text-3xl" />, name: "Telegram", url: "https://t.me/sengnoeun", color: "text-sky-500 hover:text-sky-600" },
+  // { icon: <FaInstagram className="text-3xl" />, name: "Instagram", url: "https://instagram.com/sengnoeun", color: "text-pink-600 hover:text-pink-700" },
 ];
 
-/* ================= MAIN COMPONENT ================= */
 function Home() {
-  // Fetch profile (assuming API returns single profile object)
-  const {
-    data: profileData,
-    isLoading: profileLoading,
-    isError: profileError,
-  } = useFetchData<Profiles[]>(PROFILE_URL); // ← single object
+  const { data: profileData, isLoading: pLoad, isError: pErr } = useFetchData<ProfileType[]>(`${API_URL}/api/profiles`);
+  const { data: skillsData, isLoading: sLoad, isError: sErr } = useFetchData<Skill[]>(`${API_URL}/api/skills`);
+  const { data: expData, isLoading: eLoad, isError: eErr } = useFetchData<Experience[]>(`${API_URL}/api/experiences`);
 
-  // Fetch skills
-  const {
-    data: skillsData,
-    isLoading: skillsLoading,
-    isError: skillsError,
-  } = useFetchData<Skill[]>(SKILLS_URL);
-
-  // Fetch experiences
-  const {
-    data: experiencesData,
-    isLoading: expLoading,
-    isError: expError,
-  } = useFetchData<Experience[]>(EXPERIENCES_URL);
-
-  // Derived & sorted data
-  const profile: Profiles | null = profileData?.[0] || null;
-  const skills = (skillsData || []).sort((a, b) =>
-    (a.created_at || "").localeCompare(b.created_at || "")
-  );
-  const experiences = experiencesData || [];
+  const profile = profileData?.[0] ?? null;
+  const skills = (skillsData ?? []).sort((a, b) => (a.created_at ?? "").localeCompare(b.created_at ?? ""));
+  const experiences = expData ?? [];
 
   return (
-    <main className="min-h-screen bg-blue-50">
-      {/* ================= HERO / PROFILE ================= */}
-     
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+      <Navbar />
+
+      <main className="">
         <Profile
-          isLoading={profileLoading}
-          isError={profileError}
+          isLoading={pLoad}
+          isError={pErr}
           profile={profile}
+          socialLinks={socialLinks} // pass if you want icons in hero too
         />
-  
 
-      {/* ================= SOCIAL LINKS ================= */}
-      <section className="container  px-6 py-2 md:py-20">
-        <h2 className="text-3xl md:text-4xl font-bold  mb-10 text-gray-800">
-          Connect with Me
-        </h2>
-        <div className="flex flex-wrap  gap-2">
-          {socialLinks.map((social, index) => (
-            <a
-              key={index}
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col items-center p-3  bg-white rounded-2xl shadow-md 
-                         hover:shadow-xl hover:-translate-y-2 transition-all duration-300 min-w-[100px]"
-            >
-              <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                {social.icon}
-              </div>
-              <span className="text-lg font-medium text-gray-700 group-hover:text-indigo-600 transition-colors">
-                {social.name}
-              </span>
-            </a>
-          ))}
-        </div>
-      </section>
-       
-      {/* ================= SKILLS ================= */}
-      <Skills
-        isLoading={skillsLoading}
-        isError={skillsError}
-        skills={skills}
-        normalizeSkillName={normalizeSkillName}
-        iconMap={iconMap}
-      />
+        <section id="skills" className="">
+          <Skills
+            isLoading={sLoad}
+            isError={sErr}
+            skills={skills}
+            normalizeSkillName={(name) => name.trim().toLowerCase()}
+            iconMap={iconMap}
+          />
+        </section>
 
-      {/* ================= EXPERIENCE ================= */}
-      <Experiences
-        isLoading={expLoading}
-        isError={expError}
-        experiences={experiences}
-      />
-    </main>
+        <section id="experience">
+          <Experiences
+            isLoading={eLoad}
+            isError={eErr}
+            experiences={experiences}
+          />
+        </section>
+
+        {/* Add Projects section later when you have data */}
+      </main>
+      <Footer socialLinks={socialLinks} fullName={profile?.full_name ?? "Seng Noeun"} />
+    </div>
   );
 }
 

@@ -1,26 +1,33 @@
+// src/App.tsx
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Navbar';       // your fixed header
+import Sidebar from './components/Sidebar';
+import Home from './pages/Home';
+import About from './pages/About';
+import Contact from './pages/Contact';
+// import Skills from './pages/Skills';         // if separate route wanted
+// import Experience from './pages/Experience';
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './App.css'
-import RootLayout from './Root/RootLayout'
-import Home from './pages/Home'
-import Contact from './pages/Contact'
-import About from './pages/About'
-const router=createBrowserRouter([
-  {
-    path:"/",
-    element:<RootLayout/>,
-    children:[
-      {index:true,element:<Home/>},
-      {path:"About",element:<About/>},
-      {path:"Contact",element:<Contact/>}
-
-    ],
-  },
-])
 function App() {
+  return (
+    <Router>
+      <div className="relative">
+        <Header />
+        {/* <Sidebar /> */}
 
-
-  return <RouterProvider router={router}/>
+        <main className="pt-16 md:pt-20"> {/* space for header */}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            {/* Optional: separate pages for skills & experience */}
+            {/* <Route path="/skills" element={<Skills ... />} /> */}
+            {/* <Route path="/experience" element={<Experience ... />} /> */}
+          </Routes>
+        </main>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;

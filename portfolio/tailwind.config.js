@@ -4,9 +4,20 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',   // ← important
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      colors: {
+        primary: {
+          50: '#f0f9ff',
+          600: '#2563eb',
+          700: '#1d4ed8',
+        },
+      },
+    },
   },
   plugins: [],
 }
-

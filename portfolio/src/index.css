@@ -8,10 +8,17 @@ html {
   overscroll-behavior: none;
 }
 
+
+ @keyframes progress {
+  from { stroke-dashoffset: 276; }
+  to   { stroke-dashoffset: 0;   }
+}
 body {
   cursor: default;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+ @apply antialiased;
+  -webkit-tap-highlight-color: transparent; /* removes blue flash on tap */
 }
 
 input,
